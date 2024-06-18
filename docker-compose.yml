@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:13
+    restart: always
+    container_name: certrack-postgres
+    environment:
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD: db
+      POSTGRES_DB: data
+    ports:
+      - '5432:5432'
+
+  web:
+    image: node:20.9.0-alpine3.18
+    container_name: certrack-web
+    environment:
+      - CODESPACES
+      - ORIGIN=http://localhost:5173
+    ports:
+      - '5173:5173'
+    env_file:
+      - .env.test
+    volumes:
+      - ./:/app
+      - /app/node_modules/
+      - /app/.pnpm-store/
+    working_dir: /app
+    command: sh -c "npm i -g pnpm@8.12.1 && pnpm install && pnpm run dev --host"
+    depends_on:
+      - db
