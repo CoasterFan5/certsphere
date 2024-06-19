@@ -5,7 +5,7 @@
 	export let type: HTMLButtonElement['type'] = 'button';
 </script>
 
-<button {type} class:marginTop={addMarginTop}>
+<button {type} class:marginTop={addMarginTop} on:click>
 	{value}
 </button>
 
