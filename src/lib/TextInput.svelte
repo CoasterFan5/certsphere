@@ -4,17 +4,17 @@
 	export let required = false;
 	export let value: string | undefined = undefined;
 
-	export let type: "email" | "password" | undefined = undefined;
+	export let type: 'email' | 'password' | undefined = undefined;
 </script>
 
 <label>
 	<span>{label}</span>
-	{#if type == "password"}
-		<input bind:value name={name} {required} type="password" placeholder={label}>
-	{:else if type == "email"}
-		<input bind:value name={name} {required} type="email" placeholder={label}>
+	{#if type == 'password'}
+		<input bind:value {name} {required} type="password" placeholder={label} />
+	{:else if type == 'email'}
+		<input bind:value {name} {required} type="email" placeholder={label} />
 	{:else}
-		<input bind:value name={name} {required} placeholder={label}>
+		<input bind:value {name} {required} placeholder={label} />
 	{/if}
 </label>
 
@@ -25,7 +25,7 @@
 		align-items: start;
 		justify-content: center;
 		font-size: 0.9rem;
-		
+
 		span {
 			opacity: 0.8;
 			margin-bottom: 0.25rem;

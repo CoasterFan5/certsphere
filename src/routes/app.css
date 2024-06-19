@@ -1,19 +1,17 @@
 body {
-	
 	--bg: #f1f1f1;
 	--bgAccent: #ebebeb;
 	--text: #0c0c0c;
 	--borders: #808080;
 	--primary: #0341fc;
 	--primaryText: #f1f1f1;
-	
+
 	margin: 0px;
 	padding: 0px;
 	color: var(--text);
 	background: var(--bg);
 	width: 100%;
 	height: 100vh;
-	
 }
 
 * {

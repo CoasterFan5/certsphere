@@ -1,24 +1,23 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import {toast} from "svelte-french-toast"
-	import Button from "$lib/Button.svelte";
-	import TextInput from "$lib/TextInput.svelte"
+	import { enhance } from '$app/forms';
+	import { toast } from 'svelte-french-toast';
+	import Button from '$lib/Button.svelte';
+	import TextInput from '$lib/TextInput.svelte';
 	export let form;
 
-	$: if(form) {
-		if(!form.success) {
-			toast.error(form.message)
+	$: if (form) {
+		if (!form.success) {
+			toast.error(form.message);
 		}
 	}
-	
 </script>
 
 <div class="wrap">
 	<form method="post" action="?/login" use:enhance>
 		<h2>Login</h2>
-		<TextInput label="Email" type="email" name="email" required/>
-		<TextInput label="Password" type="password" name="password" required/>
-		<Button value="Submit" type="submit" addMarginTop={true}/>
+		<TextInput label="Email" type="email" name="email" required />
+		<TextInput label="Password" type="password" name="password" required />
+		<Button value="Submit" type="submit" addMarginTop={true} />
 	</form>
 </div>
 

@@ -1,19 +1,15 @@
 <script lang="ts">
-	export let value: string = "button";
+	export let value: string = 'button';
 
 	export let addMarginTop = false;
-	export let type: HTMLButtonElement["type"] = "button"
+	export let type: HTMLButtonElement['type'] = 'button';
 </script>
-
 
 <button {type} class:marginTop={addMarginTop}>
 	{value}
 </button>
 
 <style lang="scss">
-
-	
-
 	button {
 		width: 100%;
 		border: 1px solid var(--borders);
