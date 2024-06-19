@@ -1,7 +1,16 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import {toast} from "svelte-french-toast"
 	import Button from "$lib/Button.svelte";
 	import TextInput from "$lib/TextInput.svelte"
+	export let form;
+
+	$: if(form) {
+		if(!form.success) {
+			toast.error(form.message)
+		}
+	}
+	
 </script>
 
 <div class="wrap">
