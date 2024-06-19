@@ -1,6 +1,7 @@
 <script lang="ts">
 	import HouseIcon from "~icons/ph/house"
 	import CertificateIcon from "~icons/ph/certificate"
+	import UsersIcon from "~icons/ph/users"
 	import UserIcon from "~icons/ph/user"
 </script>
 
@@ -15,6 +16,10 @@
 			Certifications
 		</a>
 		<a href="/app/certifications">
+			<UsersIcon/>
+			Groups
+		</a>
+		<a href="/app/users">
 			<UserIcon/>
 			Users
 		</a>

@@ -29,6 +29,22 @@ model user {
   hash String
   certifiedUsers certifiedUser[]
   sessions session[]
+  permissionGroupId Int?
+  permissionGroup permissionGroup? @relation(fields: [permissionGroupId], references: [id])
+}
+
+model permissionGroup {
+  id Int @id @default(autoincrement())
+  name String
+  color String
+  priority Int
+  assignees user[]
+
+  admin Boolean
+  manageGroups Boolean
+  manageCertifications Boolean
+  manageMembers Boolean
+
 }
 
 model certifiedUser {
