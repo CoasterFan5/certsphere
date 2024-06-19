@@ -1,14 +1,15 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import Button from "$lib/Button.svelte";
 	import TextInput from "$lib/TextInput.svelte"
 </script>
 
 <div class="wrap">
-	<form method="post" action="?/login">
+	<form method="post" action="?/login" use:enhance>
 		<h2>Login</h2>
 		<TextInput label="Email" type="email" name="email" required/>
 		<TextInput label="Password" type="password" name="password" required/>
-		<Button value="Submit" addMarginTop={true}/>
+		<Button value="Submit" type="submit" addMarginTop={true}/>
 	</form>
 </div>
 

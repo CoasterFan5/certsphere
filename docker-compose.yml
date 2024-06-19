@@ -25,6 +25,6 @@ services:
       - /app/node_modules/
       - /app/.pnpm-store/
     working_dir: /app
-    command: sh -c "npm i -g pnpm@8.12.1 && pnpm install && pnpm run dev --host"
+    command: sh -c "npm i -g pnpm@8.12.1 && pnpm install && npx prisma migrate deploy && npx prisma db seed && pnpm run dev --host"
     depends_on:
       - db

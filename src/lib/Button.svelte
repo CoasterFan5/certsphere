@@ -23,9 +23,12 @@
 		border-radius: 5px;
 		background: var(--bgAccent);
 		cursor: pointer;
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
 
 		&:hover {
-			background: var(--bg);
+			background: var(--primary);
+			color: var(--primaryText);
+			border: 1px solid transparent;
 		}
 	}
 

@@ -38,6 +38,11 @@
 		font-size: 1rem;
 		padding: 0.5rem;
 		border-radius: 5px;
-		background: var(--bgAccent)
+		background: var(--bgAccent);
+		transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
+
+		&:focus {
+			border: 1px solid var(--primary);
+		}
 	}
 </style>

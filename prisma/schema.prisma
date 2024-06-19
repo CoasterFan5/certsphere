@@ -13,6 +13,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model session {
+  id Int @id @default(autoincrement())
+  token String @unique
+  userId Int
+  user user @relation(fields: [userId], references: [id])
+}
+
 model user {
   id Int @id @default(autoincrement())
+  firstName String
+  lastName String
+  email String @unique
+  salt String
+  hash String
+  certifiedUsers certifiedUser[]
+  sessions session[]
+}
+
+model certifiedUser {
+  id Int @id @default(autoincrement())
+  certId Int
+  certification certification @relation(fields: [certId], references: [id])
+  userId Int
+  users user @relation(fields: [userId], references: [id])
+}
+
+model certification {
+  id Int @id @default(autoincrement())
+  name String
+  duration Int
+  requiredCEUs Int
+  certifiedUsers certifiedUser[]
 }

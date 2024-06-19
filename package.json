@@ -2,6 +2,9 @@
 	"name": "certrack",
 	"version": "0.0.1",
 	"private": true,
+	"prisma": {
+		"seed": "tsx src/scripts/seed.ts"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -38,6 +41,7 @@
 	"type": "module",
 	"dependencies": {
 		"@fontsource-variable/inter": "^5.0.18",
+		"@prisma/client": "5.15.1",
 		"prisma": "^5.15.1"
 	}
 }
