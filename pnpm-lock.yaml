@@ -41,7 +41,7 @@ devDependencies:
     specifier: ^8.56.7
     version: 8.56.10
   eslint:
-    specifier: ^9.0.0
+    specifier: ^9.5.0
     version: 9.5.0
   eslint-config-prettier:
     specifier: ^9.1.0
