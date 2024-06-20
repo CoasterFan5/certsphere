@@ -12,8 +12,15 @@ export const load = async ({cookies}) => {
 		where: {
 			token: cookies.get("session")
 		},
-		include: {
-			user: true
+		select: {
+			user: {
+				select: {
+					firstName: true,
+					lastName: true,
+					email: true,
+					permissionGroup: true
+				}
+			}
 		}
 	})
 

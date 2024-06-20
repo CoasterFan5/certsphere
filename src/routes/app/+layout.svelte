@@ -15,7 +15,7 @@
 			<CertificateIcon/>
 			Certifications
 		</a>
-		<a href="/app/certifications">
+		<a href="/app/groups">
 			<UsersIcon/>
 			Groups
 		</a>
