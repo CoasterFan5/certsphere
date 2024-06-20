@@ -25,6 +25,7 @@
 		align-items: start;
 		justify-content: center;
 		font-size: 0.9rem;
+		width: 100%;
 
 		span {
 			opacity: 0.8;
@@ -35,6 +36,7 @@
 	input {
 		border: 1px solid var(--borders);
 		outline: 0px;
+		width: 100%;
 		font-size: 1rem;
 		padding: 0.5rem;
 		border-radius: 5px;
