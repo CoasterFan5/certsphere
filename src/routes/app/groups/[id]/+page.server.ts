@@ -1,53 +1,51 @@
 import { actionHelper } from '$lib/server/actionHelper.js';
 import { prisma } from '$lib/server/prisma.js';
 import { verifyUser } from '$lib/server/verifyUser.js';
-import { error, fail, redirect, type Cookies } from '@sveltejs/kit';
+import { fail, redirect, type Cookies } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { RouteParams } from './$types.js';
 
-const validatePermissions = async(cookies: Cookies, params: RouteParams) => {
+const validatePermissions = async (cookies: Cookies, params: RouteParams) => {
 	const user = await verifyUser(cookies.get('session'));
-			if (!user) {
-				throw redirect(303, '/auth');
-			}
+	if (!user) {
+		throw redirect(303, '/auth');
+	}
 
-			if (!params.id) {
-				throw fail(400, {
-					message: 'No group id'
-				});
-			}
+	if (!params.id) {
+		throw fail(400, {
+			message: 'No group id'
+		});
+	}
 
-			const editingGroup = await prisma.permissionGroup.findFirst({
-				where: {
-					id: parseInt(params.id)
-				}
-			});
+	const editingGroup = await prisma.permissionGroup.findFirst({
+		where: {
+			id: parseInt(params.id)
+		}
+	});
 
-			if (!editingGroup) {
-				throw fail(400, {
-					message: 'No editing group'
-				});
-			}
+	if (!editingGroup) {
+		throw fail(400, {
+			message: 'No editing group'
+		});
+	}
 
-			if(!user.permissionGroup) {
-				throw fail(400, {
-					message: "No permissions"
-				})
-			}
+	if (!user.permissionGroup) {
+		throw fail(400, {
+			message: 'No permissions'
+		});
+	}
 
-			if (!user.permissionGroup?.admin && !user.permissionGroup?.manageGroups) {
-				throw fail(400, {
-					message: 'No permissions'
-				});
-			}
+	if (!user.permissionGroup?.admin && !user.permissionGroup?.manageGroups) {
+		throw fail(400, {
+			message: 'No permissions'
+		});
+	}
 
-			
-
-			return {
-				editingGroup,
-				user
-			}
-}
+	return {
+		editingGroup,
+		user
+	};
+};
 
 export const load = async ({ parent, params }) => {
 	const parentData = await parent();
@@ -76,13 +74,13 @@ export const actions = {
 			name: z.string()
 		}),
 		async ({ name }, { cookies, params }) => {
-			const {editingGroup, user} = await validatePermissions(cookies, params as RouteParams)
+			const { editingGroup, user } = await validatePermissions(cookies, params as RouteParams);
 
 			// TODO: Remove when ts updates
-			if(!user.permissionGroup) {
+			if (!user.permissionGroup) {
 				throw fail(400, {
-					message: "No perms"
-				})
+					message: 'No perms'
+				});
 			}
 
 			if (editingGroup.priority < user.permissionGroup?.priority) {
@@ -106,34 +104,27 @@ export const actions = {
 			};
 		}
 	),
-	deleteGroup: async ({cookies, params}) => {
-		const {editingGroup, user} = await validatePermissions(cookies, params)
+	deleteGroup: async ({ cookies, params }) => {
+		const { editingGroup, user } = await validatePermissions(cookies, params);
 
-		if(!user.permissionGroup?.priority) {
+		if (!user.permissionGroup?.priority) {
 			return fail(400, {
-				message: "No permissions"
-			})
+				message: 'No permissions'
+			});
 		}
 
-		if(!(editingGroup.priority > user.permissionGroup?.priority)) {
+		if (!(editingGroup.priority > user.permissionGroup?.priority)) {
 			return fail(400, {
-				message: "Group not high enough"
-			})
+				message: 'Group not high enough'
+			});
 		}
 
 		await prisma.permissionGroup.delete({
 			where: {
 				id: editingGroup.id
 			}
-		})
+		});
 
-		throw redirect(303, "/app/groups?toastTinker=true")
-
-		return {
-			success: true,
-			message: "Group deleted",
-			redirect: "groups"
-		}
-
+		throw redirect(303, '/app/groups?toastTinker=true');
 	}
 };

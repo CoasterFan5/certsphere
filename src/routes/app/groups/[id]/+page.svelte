@@ -7,12 +7,12 @@
 	import RenameIcon from '~icons/ph/cursor-text';
 	import ToggleSwitch from '$lib/components/ToggleSwitch.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import { pushState, goto } from '$app/navigation';
+	import { pushState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ModalForm from '$lib/components/ModalForm.svelte';
 	import TextInput from '$lib/TextInput.svelte';
 	import Button from '$lib/Button.svelte';
-	import { Toaster, toast } from 'svelte-french-toast';
+	import { toast } from 'svelte-french-toast';
 
 	const openRenameModal = () => {
 		pushState('', {
@@ -20,13 +20,11 @@
 		});
 	};
 
-	
-
 	const openDeleteModal = () => {
 		pushState('', {
-			showingModal: "deleteGroup"
-		})
-	}
+			showingModal: 'deleteGroup'
+		});
+	};
 
 	$: if (form) {
 		if (form.success) {
@@ -34,9 +32,9 @@
 		} else {
 			toastPromiseReject(form.message);
 		}
-		if(form.redirect == "groups") {
-			toast.dismiss()
-			console.log("dismissing Toast")
+		if (form.redirect == 'groups') {
+			toast.dismiss();
+			console.log('dismissing Toast');
 		}
 	}
 

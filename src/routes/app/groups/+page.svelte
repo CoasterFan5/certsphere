@@ -25,14 +25,12 @@
 		} else {
 			toastPromiseReject(form.message);
 		}
-		
 	}
 
-		$: if($page.url.searchParams.get("toastTinker") == "true") {
-			console.log("Toast Tinker Active")
-			toast.dismiss()
-		}
-	
+	$: if ($page.url.searchParams.get('toastTinker') == 'true') {
+		console.log('Toast Tinker Active');
+		toast.dismiss();
+	}
 
 	let toastPromiseResolve: (message: string) => void, toastPromiseReject: (reason: string) => void;
 	let toastPromise: Promise<string> = new Promise((resolve, reject) => {
