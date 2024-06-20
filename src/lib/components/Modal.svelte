@@ -4,7 +4,7 @@
 
     const dispatcher = createEventDispatcher()
 
-    let open = true;
+    let disableClose = false;
     const close = (event: MouseEvent) => {
         console.log(event.currentTarget, event.target)
         if(event.currentTarget == event.target) {
@@ -16,16 +16,17 @@
         dispatcher("close")
     }
 
-    onMount(() => {
-        window.addEventListener("keydown", (event: KeyboardEvent) => {
-            if(event.key == "Escape") {
-                forceClose()
-            }
-        }, {once: true})
-    })
+    const keyboardHelper = (event: KeyboardEvent) => {
+        if(event.key == "Escape" && !disableClose) {
+            disableClose = true;
+            forceClose()
+        }
+    }
     
 
 </script>
+
+<svelte:window on:keydown={keyboardHelper}/>
 <button class="bg" on:click={close}>
     <div class="content" transition:fly={{x: 0, y: 100, delay: 0, duration: 100}}>
         <slot/>
