@@ -7,12 +7,12 @@
 	import RenameIcon from '~icons/ph/cursor-text';
 	import ToggleSwitch from '$lib/components/ToggleSwitch.svelte';
 	import Modal from '$lib/components/Modal.svelte';
-	import { pushState } from '$app/navigation';
+	import { pushState, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ModalForm from '$lib/components/ModalForm.svelte';
 	import TextInput from '$lib/TextInput.svelte';
 	import Button from '$lib/Button.svelte';
-	import { toast } from 'svelte-french-toast';
+	import { Toaster, toast } from 'svelte-french-toast';
 
 	const openRenameModal = () => {
 		pushState('', {
@@ -20,11 +20,23 @@
 		});
 	};
 
+	
+
+	const openDeleteModal = () => {
+		pushState('', {
+			showingModal: "deleteGroup"
+		})
+	}
+
 	$: if (form) {
 		if (form.success) {
 			toastPromiseResolve(form.message);
 		} else {
 			toastPromiseReject(form.message);
+		}
+		if(form.redirect == "groups") {
+			toast.dismiss()
+			console.log("dismissing Toast")
 		}
 	}
 
@@ -61,6 +73,20 @@
 	</Modal>
 {/if}
 
+{#if $page.state.showingModal == 'deleteGroup'}
+	<Modal on:close={() => history.back()}>
+		<ModalForm
+			method="post"
+			action="?/deleteGroup"
+			title="Delete Group"
+			on:submit={() => submitToastHandler('Deleting')}
+		>
+			<p>Are you sure you want to delete this group? This action can not be undone.</p>
+			<Button value="Delete" type="submit" />
+		</ModalForm>
+	</Modal>
+{/if}
+
 <div class="wrap">
 	<div class="title">
 		<h2>{data.groupInfo.name}</h2>
@@ -70,9 +96,9 @@
 		<button class="icon" on:click={openRenameModal}>
 			<RenameIcon />
 		</button>
-		<span class="icon">
+		<button class="icon" on:click={openDeleteModal}>
 			<TrashIcon />
-		</span>
+		</button>
 	</div>
 	<div class="permissions">
 		<div class="permission">
