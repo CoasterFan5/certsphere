@@ -1,29 +1,29 @@
 <script lang="ts">
-	import GroupIcon from "~icons/ph/user-circle-dashed"
-	import EditIcon from "~icons/ph/pencil-simple"
-	import PlusIcon from "~icons/ph/plus"
+	import GroupIcon from '~icons/ph/user-circle-dashed';
+	import EditIcon from '~icons/ph/pencil-simple';
+	import PlusIcon from '~icons/ph/plus';
 
-	import Modal from "$lib/components/Modal.svelte";
-	import { pushState } from "$app/navigation";
-	import { page } from "$app/stores"
-	import ModalForm from "$lib/components/ModalForm.svelte";
-	import TextInput from "$lib/TextInput.svelte"
-	import Button from "$lib/Button.svelte"
-	import toast from "svelte-french-toast"
+	import Modal from '$lib/components/Modal.svelte';
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import ModalForm from '$lib/components/ModalForm.svelte';
+	import TextInput from '$lib/TextInput.svelte';
+	import Button from '$lib/Button.svelte';
+	import toast from 'svelte-french-toast';
 	export let data;
 	export let form;
 
 	export const openCreateModal = () => {
-		pushState("", {
-			showingModal: "createNewGroup"
-		})
-	}
+		pushState('', {
+			showingModal: 'createNewGroup'
+		});
+	};
 
-	$: if(form) {
-		if(form.success) {
-			toastPromiseResolve(form.message)
+	$: if (form) {
+		if (form.success) {
+			toastPromiseResolve(form.message);
 		} else {
-			toastPromiseReject(form.message)
+			toastPromiseReject(form.message);
 		}
 	}
 
@@ -40,36 +40,39 @@
 		});
 		toast.promise(toastPromise, {
 			loading: loadingMessage,
-			success: (message) => `${message}` || "success",
-			error: (message) => `${message}` || "error"
-		})
-	}
+			success: (message) => `${message}` || 'success',
+			error: (message) => `${message}` || 'error'
+		});
+	};
 </script>
 
-{#if $page.state.showingModal == "createNewGroup"}
+{#if $page.state.showingModal == 'createNewGroup'}
 	<Modal on:close={() => history.back()}>
-		<ModalForm method="post" action="?/createGroup" title="Create Group" on:submit={() => submitToastHandler("Creating group")}>
-			<TextInput label="Group Name" name="name"/>
-			<Button value="Create"/>
+		<ModalForm
+			method="post"
+			action="?/createGroup"
+			title="Create Group"
+			on:submit={() => submitToastHandler('Creating group')}
+		>
+			<TextInput label="Group Name" name="name" />
+			<Button value="Create" />
 		</ModalForm>
 	</Modal>
 {/if}
 
 <div class="wrap">
 	<div class="toolbar">
-		<h2>
-			Groups
-		</h2>
+		<h2>Groups</h2>
 		<button on:click={openCreateModal}>
-			<PlusIcon/>
+			<PlusIcon />
 		</button>
 	</div>
-	
+
 	{#each data.groups as group}
 		<div class="group">
 			<div class="infoGroupLeft">
 				<span class="icon" style="color: #{group.color}">
-					<GroupIcon/>
+					<GroupIcon />
 				</span>
 				<span class="groupName">
 					{group.name}
@@ -77,7 +80,7 @@
 			</div>
 			<div class="edit">
 				<a href="/app/groups/{group.id}">
-					<EditIcon/>
+					<EditIcon />
 				</a>
 			</div>
 		</div>
@@ -153,11 +156,10 @@
 			margin-left: 0.5rem;
 			padding: 0.25rem;
 			border-radius: 50%;
-			
+
 			&:hover {
 				background: rgba(0, 0, 0, 0.25);
 			}
 		}
 	}
 </style>
-

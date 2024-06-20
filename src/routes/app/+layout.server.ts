@@ -1,16 +1,14 @@
-import { prisma } from '$lib/server/prisma.js'
-import { redirect } from '@sveltejs/kit'
+import { prisma } from '$lib/server/prisma.js';
+import { redirect } from '@sveltejs/kit';
 
-
-export const load = async ({cookies}) => {
-	
-	if(!cookies.get("session")) {
-		return redirect(303, "/auth")
+export const load = async ({ cookies }) => {
+	if (!cookies.get('session')) {
+		return redirect(303, '/auth');
 	}
 
 	const sessionCheck = await prisma.session.findUnique({
 		where: {
-			token: cookies.get("session")
+			token: cookies.get('session')
 		},
 		select: {
 			user: {
@@ -22,14 +20,13 @@ export const load = async ({cookies}) => {
 				}
 			}
 		}
-	})
+	});
 
-	if(!sessionCheck?.user) {
-		return redirect(303, "/auth")
+	if (!sessionCheck?.user) {
+		return redirect(303, '/auth');
 	}
 
 	return {
 		user: sessionCheck.user
-	}
-
-}
+	};
+};

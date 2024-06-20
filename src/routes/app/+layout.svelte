@@ -1,30 +1,30 @@
 <script lang="ts">
-	import HouseIcon from "~icons/ph/house"
-	import CertificateIcon from "~icons/ph/certificate"
-	import UsersIcon from "~icons/ph/users"
-	import UserIcon from "~icons/ph/user"
+	import HouseIcon from '~icons/ph/house';
+	import CertificateIcon from '~icons/ph/certificate';
+	import UsersIcon from '~icons/ph/users';
+	import UserIcon from '~icons/ph/user';
 </script>
 
 <div class="wrap">
 	<nav>
 		<a href="/app">
-			<HouseIcon/>
+			<HouseIcon />
 			Dashboard
 		</a>
 		<a href="/app/certifications">
-			<CertificateIcon/>
+			<CertificateIcon />
 			Certifications
 		</a>
 		<a href="/app/groups">
-			<UsersIcon/>
+			<UsersIcon />
 			Groups
 		</a>
 		<a href="/app/users">
-			<UserIcon/>
+			<UserIcon />
 			Users
 		</a>
 	</nav>
-	<slot/>
+	<slot />
 </div>
 
 <style lang="scss">
@@ -33,7 +33,6 @@
 		width: 100%;
 		display: flex;
 		flex-direction: row;
-
 
 		nav {
 			height: 100%;

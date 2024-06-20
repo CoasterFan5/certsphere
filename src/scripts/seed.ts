@@ -10,15 +10,15 @@ const main = async () => {
 		},
 		update: {},
 		create: {
-			name: "Admin Group",
-			color: "ff0000",
+			name: 'Admin Group',
+			color: 'ff0000',
 			priority: 1,
 			admin: true,
 			manageGroups: true,
 			manageCertifications: true,
 			manageMembers: true
 		}
-	})
+	});
 
 	const adminPassword = await createHash('password');
 	await prisma.user.upsert({
@@ -32,11 +32,9 @@ const main = async () => {
 			lastName: 'man',
 			hash: adminPassword.hash,
 			salt: adminPassword.salt,
-			permissionGroupId: 1,
+			permissionGroupId: 1
 		}
 	});
-
-	
 
 	console.info('Seed finished');
 };

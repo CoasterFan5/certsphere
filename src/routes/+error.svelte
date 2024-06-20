@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Button from "$lib/Button.svelte"
+	import Button from '$lib/Button.svelte';
 </script>
 
 <div class="wrap">
@@ -8,11 +8,13 @@
 		<h1>Error <span>{$page.status}</span></h1>
 		<h2>{$page.error?.message}</h2>
 		<div>
-			<Button value="Back to safety" on:click={() => {
-				history.back()
-			}}/>
+			<Button
+				value="Back to safety"
+				on:click={() => {
+					history.back();
+				}}
+			/>
 		</div>
-		
 	</div>
 </div>
 
