@@ -28,7 +28,8 @@
 
 <svelte:window on:keydown={keyboardHelper}/>
 <button class="bg" on:click={close}>
-    <div class="content" transition:fly={{x: 0, y: 100, delay: 0, duration: 100}}>
+    <!-- svelte-ignore a11y-autofocus -->
+    <div autofocus class="content" transition:fly={{x: 0, y: 100, delay: 0, duration: 100}}>
         <slot/>
     </div>
 </button>

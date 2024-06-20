@@ -34,7 +34,7 @@ export const actions = {
 
 		const user = await verifyUser(cookies.get("session"))
 		if(!user) {
-			throw redirect(303, "/login")
+			throw redirect(303, "/auth")
 		}
 
 		if(!params.id) {

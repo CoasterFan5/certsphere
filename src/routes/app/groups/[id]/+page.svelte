@@ -20,9 +20,8 @@
 		})
 	}
 
-	$: console.log(form)
+
 	$: if(form) {
-		console.log(form)
 		if(form.success) {
 			toastPromiseResolve(form.message)
 		} else {
