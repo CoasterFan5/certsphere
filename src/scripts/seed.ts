@@ -12,7 +12,7 @@ const main = async () => {
 		create: {
 			name: 'Admin Group',
 			color: 'ff0000',
-			priority: 0,
+			priority: 1,
 			admin: true,
 			manageGroups: true,
 			manageCertifications: true,
