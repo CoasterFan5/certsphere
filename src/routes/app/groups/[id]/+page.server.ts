@@ -126,5 +126,43 @@ export const actions = {
 		});
 
 		throw redirect(303, '/app/groups?toastTinker=true');
-	}
+	},
+	updatePermissions: actionHelper(z.object({
+		admin: z.coerce.boolean(),
+		manageMembers: z.coerce.boolean(),
+		manageGroups: z.coerce.boolean(),
+		manageCertifications: z.coerce.boolean()
+	}), async({admin, manageMembers, manageGroups, manageCertifications}, {cookies, params}) => {
+		const { editingGroup, user } = await validatePermissions(cookies, params as RouteParams);
+
+			// TODO: Remove when ts updates
+			if (!user.permissionGroup) {
+				throw fail(400, {
+					message: 'No perms'
+				});
+			}
+
+			if (!(editingGroup.priority > user.permissionGroup?.priority)) {
+				return fail(400, {
+					message: 'Group not high enough'
+				});
+			}
+
+			await prisma.permissionGroup.update({
+				where: {
+					id: editingGroup.id
+				},
+				data: {
+					admin,
+					manageMembers,
+					manageCertifications,
+					manageGroups
+				}
+			});
+
+			return {
+				success: true,
+				message: 'Group updated'
+			};
+	})
 };
