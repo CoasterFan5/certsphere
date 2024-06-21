@@ -5,7 +5,7 @@
 </script>
 
 <label>
-	<input bind:checked={value} {name} type="checkbox" on:change on:input on:click/>
+	<input bind:checked={value} {name} type="checkbox" on:change on:input on:click />
 	{label}
 </label>
 

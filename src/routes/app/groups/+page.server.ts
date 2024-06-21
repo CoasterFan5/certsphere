@@ -60,19 +60,20 @@ export const actions = {
 				success: true,
 				message: 'Group Created'
 			};
-		},
+		}
 	),
-	changePosition: actionHelper(z.object({
-		itemId: z.coerce.number(),
-		newItemIndex: z.coerce.number(),
-		
-	}), async({itemId, newItemIndex}, {cookies}) => {
-		const user = await verifyUser(cookies.get('session'));
+	changePosition: actionHelper(
+		z.object({
+			itemId: z.coerce.number(),
+			newItemIndex: z.coerce.number()
+		}),
+		async ({ itemId, newItemIndex }, { cookies }) => {
+			const user = await verifyUser(cookies.get('session'));
 			if (!user) {
 				throw redirect(303, '/auth');
 			}
 
-			console.log(itemId, newItemIndex)
+			console.log(itemId, newItemIndex);
 
 			if (!user.permissionGroup?.admin && !user.permissionGroup?.manageGroups) {
 				return fail(400, {
@@ -84,18 +85,18 @@ export const actions = {
 				where: {
 					id: itemId
 				}
-			})
+			});
 
-			if(!movingGroup) {
+			if (!movingGroup) {
 				return fail(400, {
-					message: "Failed db lookup for group"
-				})
+					message: 'Failed db lookup for group'
+				});
 			}
 
-			if(newItemIndex + 1 == 1) {
+			if (newItemIndex + 1 == 1) {
 				return fail(400, {
-					message: "Group 0 is reserved for admin group"
-				})
+					message: 'Group 0 is reserved for admin group'
+				});
 			}
 
 			await prisma.permissionGroup.updateMany({
@@ -109,7 +110,7 @@ export const actions = {
 						increment: 1
 					}
 				}
-			})
+			});
 
 			await prisma.permissionGroup.update({
 				where: {
@@ -118,11 +119,12 @@ export const actions = {
 				data: {
 					priority: newItemIndex + 1
 				}
-			})
+			});
 
 			return {
 				success: true,
-				message: "Order Updated"
-			}
-	})
+				message: 'Order Updated'
+			};
+		}
+	)
 };

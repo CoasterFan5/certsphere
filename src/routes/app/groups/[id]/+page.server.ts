@@ -127,13 +127,15 @@ export const actions = {
 
 		throw redirect(303, '/app/groups?toastTinker=true');
 	},
-	updatePermissions: actionHelper(z.object({
-		admin: z.coerce.boolean(),
-		manageMembers: z.coerce.boolean(),
-		manageGroups: z.coerce.boolean(),
-		manageCertifications: z.coerce.boolean()
-	}), async({admin, manageMembers, manageGroups, manageCertifications}, {cookies, params}) => {
-		const { editingGroup, user } = await validatePermissions(cookies, params as RouteParams);
+	updatePermissions: actionHelper(
+		z.object({
+			admin: z.coerce.boolean(),
+			manageMembers: z.coerce.boolean(),
+			manageGroups: z.coerce.boolean(),
+			manageCertifications: z.coerce.boolean()
+		}),
+		async ({ admin, manageMembers, manageGroups, manageCertifications }, { cookies, params }) => {
+			const { editingGroup, user } = await validatePermissions(cookies, params as RouteParams);
 
 			// TODO: Remove when ts updates
 			if (!user.permissionGroup) {
@@ -164,5 +166,6 @@ export const actions = {
 				success: true,
 				message: 'Group updated'
 			};
-	})
+		}
+	)
 };

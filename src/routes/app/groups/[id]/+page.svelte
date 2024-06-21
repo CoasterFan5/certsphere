@@ -14,7 +14,7 @@
 	import Button from '$lib/Button.svelte';
 	import { toast } from 'svelte-french-toast';
 	import { enhance } from '$app/forms';
-	
+
 	let permissionFormSubmit: HTMLButtonElement;
 
 	const openRenameModal = () => {
@@ -34,7 +34,7 @@
 			toastPromiseResolve(form.message);
 		} else {
 			toastPromiseReject(form.message);
-			invalidateAll()
+			invalidateAll();
 		}
 	}
 
@@ -98,28 +98,57 @@
 			<TrashIcon />
 		</button>
 	</div>
-	<form class="permissions" method="post" action="?/updatePermissions" use:enhance={() => {
-		return async({update}) => {
-			update({reset: false})
-		}
-	}}>
+	<form
+		class="permissions"
+		method="post"
+		action="?/updatePermissions"
+		use:enhance={() => {
+			return async ({ update }) => {
+				update({ reset: false });
+			};
+		}}
+	>
 		<div class="permission">
-			<ToggleSwitch bind:value={data.groupInfo.admin} label="Admin" name="admin"  on:input={() => permissionFormSubmit.click()}/>
+			<ToggleSwitch
+				bind:value={data.groupInfo.admin}
+				label="Admin"
+				name="admin"
+				on:input={() => permissionFormSubmit.click()}
+			/>
 			<p>Admin's have all permissions regardless of how other permissions are set.</p>
 		</div>
 		<div class="permission">
-			<ToggleSwitch bind:value={data.groupInfo.manageMembers} label="Manage Members" name="manageMembers" on:change={() => permissionFormSubmit.click()} />
+			<ToggleSwitch
+				bind:value={data.groupInfo.manageMembers}
+				label="Manage Members"
+				name="manageMembers"
+				on:change={() => permissionFormSubmit.click()}
+			/>
 			<p>The ability to create, update, and delete members.</p>
 		</div>
 		<div class="permission">
-			<ToggleSwitch bind:value={data.groupInfo.manageGroups} label="Manage Groups" name="manageGroups" on:change={() => permissionFormSubmit.click()} />
+			<ToggleSwitch
+				bind:value={data.groupInfo.manageGroups}
+				label="Manage Groups"
+				name="manageGroups"
+				on:change={() => permissionFormSubmit.click()}
+			/>
 			<p>The ability to create, update, and delete groups below this one.</p>
 		</div>
 		<div class="permission">
-			<ToggleSwitch bind:value={data.groupInfo.manageCertifications} label="Manage Certifications" name="manageCertifications" on:change={() => permissionFormSubmit.click()}/>
+			<ToggleSwitch
+				bind:value={data.groupInfo.manageCertifications}
+				label="Manage Certifications"
+				name="manageCertifications"
+				on:change={() => permissionFormSubmit.click()}
+			/>
 			<p>The ability to create, update, and delete certifications.</p>
 		</div>
-		<button hidden bind:this={permissionFormSubmit} on:click={() => submitToastHandler('Updating Permissions')}/>
+		<button
+			hidden
+			bind:this={permissionFormSubmit}
+			on:click={() => submitToastHandler('Updating Permissions')}
+		/>
 	</form>
 </div>
 

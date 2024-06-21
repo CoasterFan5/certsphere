@@ -23,10 +23,10 @@
 	};
 
 	const preventSpaceClose = (event: KeyboardEvent) => {
-		if(event.code == "Space") {
-			event.preventDefault()
+		if (event.code == 'Space') {
+			event.preventDefault();
 		}
-	}
+	};
 </script>
 
 <svelte:window on:keydown={keyboardHelper} />
