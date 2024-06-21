@@ -12,8 +12,13 @@
 	import Button from '$lib/Button.svelte';
 	import toast from 'svelte-french-toast';
 	import type { Mouse } from '@playwright/test';
+	import { enhance } from '$app/forms';
 	export let data;
 	export let form;
+
+	let changeOrderFormButton: HTMLButtonElement;
+	let changeOrderIndex: HTMLInputElement;
+	let changeOrderId: HTMLInputElement;
 
 	type GroupIsh = {
 		id: number,
@@ -108,11 +113,18 @@
 			const boxesMovedRounded = Math.floor(boxesMoved)
 			const finalBoxesMoved = boxesMovedRounded < 0 ? boxesMovedRounded + 1 : boxesMovedRounded - 1;
 			groups.splice(dragElementIndex + finalBoxesMoved, 0, groups.splice(dragElementIndex, 1)[0])
+
+			changeOrderIndex.value = (dragElementIndex + finalBoxesMoved).toString();
+			changeOrderId.value= groups[dragElementIndex + finalBoxesMoved].id.toString()
+
 			groups = [...groups]
 			dragging = false;
 			dragElement.style.position = "unset"
 			dragElement.style.top = "unset"
 			ghostIndex = Infinity;
+
+			submitToastHandler("Updating order")
+			changeOrderFormButton.click()
 		}
 	}
 
@@ -134,6 +146,12 @@
 		</ModalForm>
 	</Modal>
 {/if}
+
+<form method="post" action="?/changePosition" hidden use:enhance>
+	<input bind:this={changeOrderId} type="number" name="itemId"/>
+	<input bind:this={changeOrderIndex} type="number" name="newItemIndex"/>
+	<button bind:this={changeOrderFormButton} type="submit"/>
+</form>
 
 <div class="wrap">
 	<div class="toolbar">
