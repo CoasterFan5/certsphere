@@ -6,7 +6,6 @@
 
 	let disableClose = false;
 	const close = (event: MouseEvent) => {
-		console.log(event.currentTarget, event.target);
 		if (event.currentTarget == event.target) {
 			forceClose();
 		}
@@ -22,10 +21,16 @@
 			forceClose();
 		}
 	};
+
+	const preventSpaceClose = (event: KeyboardEvent) => {
+		if(event.code == "Space") {
+			event.preventDefault()
+		}
+	}
 </script>
 
 <svelte:window on:keydown={keyboardHelper} />
-<button class="bg" on:click={close}>
+<button class="bg" on:click={close} on:keyup={preventSpaceClose}>
 	<!-- svelte-ignore a11y-autofocus -->
 	<div autofocus class="content" transition:fly={{ x: 0, y: 100, delay: 0, duration: 100 }}>
 		<slot />

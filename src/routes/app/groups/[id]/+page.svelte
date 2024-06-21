@@ -13,6 +13,7 @@
 	import TextInput from '$lib/TextInput.svelte';
 	import Button from '$lib/Button.svelte';
 	import { toast } from 'svelte-french-toast';
+	
 
 	const openRenameModal = () => {
 		pushState('', {
@@ -31,10 +32,6 @@
 			toastPromiseResolve(form.message);
 		} else {
 			toastPromiseReject(form.message);
-		}
-		if (form.redirect == 'groups') {
-			toast.dismiss();
-			console.log('dismissing Toast');
 		}
 	}
 

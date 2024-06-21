@@ -38,7 +38,7 @@ export const actions = {
 
 			const group = await prisma.permissionGroup.findFirst({
 				orderBy: {
-					priority: 'asc'
+					priority: 'desc'
 				}
 			});
 

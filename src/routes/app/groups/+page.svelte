@@ -2,6 +2,7 @@
 	import GroupIcon from '~icons/ph/user-circle-dashed';
 	import EditIcon from '~icons/ph/pencil-simple';
 	import PlusIcon from '~icons/ph/plus';
+	import DragIcon from "~icons/ph/dots-six-vertical"
 
 	import Modal from '$lib/components/Modal.svelte';
 	import { pushState } from '$app/navigation';
@@ -10,8 +11,25 @@
 	import TextInput from '$lib/TextInput.svelte';
 	import Button from '$lib/Button.svelte';
 	import toast from 'svelte-french-toast';
+	import type { Mouse } from '@playwright/test';
 	export let data;
 	export let form;
+
+	type GroupIsh = {
+		id: number,
+		priority: number,
+		color: string,
+		name: string,
+		element: HTMLDivElement | undefined
+	}
+
+	let groups: GroupIsh[] = data.groups.map((group) => {console.log("we love map"); return {
+		id: group.id,
+		priority: group.priority,
+		color: group.color,
+		name: group.name,
+		element: undefined,
+	}});
 
 	export const openCreateModal = () => {
 		pushState('', {
@@ -49,7 +67,59 @@
 			error: (message) => `${message}` || 'error'
 		});
 	};
+
+	let dragging = false;
+	let dragElement: HTMLDivElement;
+	let dragElementIndex: number;
+	let dragElementOriginalY = 0;
+	let ghostIndex = Infinity;
+
+	const startDrag = (element: HTMLDivElement | undefined, index: number) => {
+		if(!element) {
+			console.log("no element")
+			return
+		}
+		dragElementIndex = index;
+		dragging = true;
+		dragElementOriginalY = element.getBoundingClientRect().y;
+		dragElement = element;
+		console.log("Drag Started")
+	}
+
+	const dragHelper = (e: MouseEvent) => {
+		if(dragging) {
+			let width = dragElement.clientWidth;
+			dragElement.style.position = "fixed"
+			dragElement.style.width = width + "px";
+			dragElement.style.top = (e.clientY - dragElement.clientHeight/2) + "px";
+			let newY = dragElement.getBoundingClientRect().y;
+			let boxesMoved = (newY - dragElementOriginalY)/dragElement.clientHeight;
+			const boxesMovedRounded = Math.floor(boxesMoved)
+			const finalBoxesMoved = boxesMovedRounded < 0 ? boxesMovedRounded + 1 : boxesMovedRounded - 1;
+			ghostIndex = dragElementIndex + finalBoxesMoved;
+
+		}
+	}
+
+	const stopDrag = (e: MouseEvent) => {
+		if(dragging) {
+			let newY = dragElement.getBoundingClientRect().y;
+			let boxesMoved = (newY - dragElementOriginalY)/dragElement.clientHeight;
+			const boxesMovedRounded = Math.floor(boxesMoved)
+			const finalBoxesMoved = boxesMovedRounded < 0 ? boxesMovedRounded + 1 : boxesMovedRounded - 1;
+			groups.splice(dragElementIndex + finalBoxesMoved, 0, groups.splice(dragElementIndex, 1)[0])
+			groups = [...groups]
+			dragging = false;
+			dragElement.style.position = "unset"
+			dragElement.style.top = "unset"
+			ghostIndex = Infinity;
+		}
+	}
+
+
 </script>
+
+<svelte:window on:mousemove={dragHelper} on:mouseup={stopDrag}/>
 
 {#if $page.state.showingModal == 'createNewGroup'}
 	<Modal on:close={() => history.back()}>
@@ -72,9 +142,28 @@
 			<PlusIcon />
 		</button>
 	</div>
-
-	{#each data.groups as group}
-		<div class="group">
+	{#each groups as group, i}
+		{#if i == ghostIndex && dragging && i != 0} 
+			<div class="group ghost">
+				<div class="infoGroupLeft">
+					<span class="icon" style="color: #{group.color}">
+						<GroupIcon />
+					</span>
+					<span class="groupName">
+						Ghost
+					</span>
+				</div>
+				<div class="edit">
+					<button disabled={group.priority == 1} class="b" draggable={true} on:mousedown={() => startDrag(group.element, i)}>
+						<DragIcon/>
+					</button>
+					<a class="b" href="/app/groups/{group.id}">
+						<EditIcon />
+					</a>
+				</div>
+			</div>
+		{/if}
+		<div class="group" bind:this={group.element}>
 			<div class="infoGroupLeft">
 				<span class="icon" style="color: #{group.color}">
 					<GroupIcon />
@@ -84,7 +173,10 @@
 				</span>
 			</div>
 			<div class="edit">
-				<a href="/app/groups/{group.id}">
+				<button disabled={group.priority == 1} class="b" draggable={true} on:mousedown={() => startDrag(group.element, i)}>
+					<DragIcon/>
+				</button>
+				<a class="b" href="/app/groups/{group.id}">
 					<EditIcon />
 				</a>
 			</div>
@@ -127,7 +219,9 @@
 		align-items: center;
 		justify-content: center;
 
-		a {
+		.b {
+			all: unset;
+			cursor: pointer;
 			display: flex;
 			color: var(--text);
 			align-items: center;
@@ -135,6 +229,11 @@
 			border-radius: 50%;
 			padding: 0.25rem;
 			transition: all cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s;
+
+			&:disabled {
+				opacity: 0.5;
+				cursor: not-allowed;
+			}
 
 			&:hover {
 				background: rgba(0, 0, 0, 0.2);
@@ -166,5 +265,8 @@
 				background: rgba(0, 0, 0, 0.25);
 			}
 		}
+	}
+	.ghost {
+		opacity: 0;
 	}
 </style>
