@@ -28,7 +28,7 @@
 		element: HTMLDivElement | undefined
 	}
 
-	let groups: GroupIsh[] = data.groups.map((group) => {console.log("we love map"); return {
+	let groups: GroupIsh[] = data.groups.map((group) => { return {
 		id: group.id,
 		priority: group.priority,
 		color: group.color,
@@ -48,6 +48,17 @@
 		} else {
 			toastPromiseReject(form.message);
 		}
+		console.log("Calling Group Remap")
+
+		//since we map the groups for dragging, we need to recall this function if there is new group data
+		groups = data.groups.map((group) => {return {
+			id: group.id,
+			priority: group.priority,
+			color: group.color,
+			name: group.name,
+			element: undefined,
+		}});
+		form = null;
 	}
 
 	$: if ($page.url.searchParams.get('toastTinker') == 'true') {
@@ -181,7 +192,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="group" bind:this={group.element}>
+		<div class="group" bind:this={group.element} style="position: unset">
 			<div class="infoGroupLeft">
 				<span class="icon" style="color: #{group.color}">
 					<GroupIcon />
