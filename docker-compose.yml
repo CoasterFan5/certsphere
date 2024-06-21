@@ -2,7 +2,7 @@ services:
   db:
     image: postgres:13
     restart: always
-    container_name: certrack-postgres
+    container_name: certsphere-postgres
     environment:
       POSTGRES_USER: db
       POSTGRES_PASSWORD: db
@@ -12,7 +12,7 @@ services:
 
   web:
     image: node:20.9.0-alpine3.18
-    container_name: certrack-web
+    container_name: certsphere-web
     environment:
       - CODESPACES
       - ORIGIN=http://localhost:5173
