@@ -1,8 +1,6 @@
 <script lang="ts">
 	import SimpleTable from '$lib/components/SimpleTable.svelte';
 	export let data;
-
-	import z from 'zod';
 </script>
 
 <div class="wrap">
@@ -14,27 +12,27 @@
 			[
 				{
 					fieldName: 'Email',
-					internalName: "email",
+					internalName: 'email',
 					fieldData: (user) => user.email,
-					allowSorting: true,
+					allowSorting: true
 				},
 				{
 					fieldName: 'First Name',
-					internalName: "firstName",
+					internalName: 'firstName',
 					fieldData: (user) => user.firstName,
-					allowSorting: true,
+					allowSorting: true
 				},
 				{
 					fieldName: 'Last Name',
-					internalName: "lastName",
+					internalName: 'lastName',
 					fieldData: (user) => user.lastName,
-					allowSorting: true,
+					allowSorting: true
 				},
 				{
 					fieldName: 'Group',
-					internalName: "group",
+					internalName: 'group',
 					fieldData: (user) => user.permissionGroup?.name,
-					allowSorting: true,
+					allowSorting: true
 				}
 			]
 		]}

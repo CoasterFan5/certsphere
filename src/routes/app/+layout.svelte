@@ -27,7 +27,6 @@
 	<div class="content">
 		<slot />
 	</div>
-	
 </div>
 
 <style lang="scss">

@@ -1,10 +1,10 @@
 <script lang="ts">
-	export let type: HTMLButtonElement["type"] = "button"
+	export let type: HTMLButtonElement['type'] = 'button';
 </script>
 
 <button on:click {type}>
 	<span>
-		<slot/>
+		<slot />
 	</span>
 </button>
 
@@ -19,7 +19,7 @@
 		border-radius: 50%;
 		padding: 0.25rem;
 		cursor: pointer;
-		
+
 		&:hover {
 			background: rgba(0, 0, 0, 0.2);
 		}
@@ -28,6 +28,5 @@
 			height: 100%;
 			aspect-ratio: 1/1;
 		}
-		
 	}
 </style>
