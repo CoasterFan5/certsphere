@@ -24,7 +24,10 @@
 			Users
 		</a>
 	</nav>
-	<slot />
+	<div class="content">
+		<slot />
+	</div>
+	
 </div>
 
 <style lang="scss">
@@ -57,6 +60,13 @@
 					color: var(--primaryText);
 				}
 			}
+		}
+
+		.content {
+			width: 100%;
+			height: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
 		}
 	}
 </style>

@@ -1,5 +1,7 @@
 import { createHash } from '$lib/server/createHash';
 import { prisma } from '$lib/server/prisma';
+import { faker } from '@faker-js/faker';
+
 
 const main = async () => {
 	console.info('Seeding started');
@@ -35,6 +37,20 @@ const main = async () => {
 			permissionGroupId: 1
 		}
 	});
+
+	for(let i = 0; i < 100; i++) {
+		const firstName = faker.person.firstName();
+		const lastName = faker.person.lastName()
+		await prisma.user.create({
+			data: {
+				email: `${firstName}.${lastName}@fake.dev`,
+				firstName,
+				lastName,
+				hash: adminPassword.hash,
+				salt: adminPassword.salt,
+			}
+		})
+	}
 
 	console.info('Seed finished');
 };
