@@ -14,7 +14,12 @@
 					fieldName: 'Email',
 					internalName: 'email',
 					fieldData: (user) => user.email,
-					allowSorting: true
+					allowSorting: true,
+					eventListeners: {
+						onClick: ((e, record) => {
+							console.log(record)
+						})
+					}
 				},
 				{
 					fieldName: 'First Name',
@@ -34,7 +39,10 @@
 					fieldData: (user) => user.permissionGroup?.name,
 					allowSorting: true
 				}
-			]
+			],
+			{
+				totalRecords: data.userCount
+			}
 		]}
 	/>
 </div>
