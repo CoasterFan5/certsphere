@@ -16,9 +16,9 @@
 					fieldData: (user) => user.email,
 					allowSorting: true,
 					eventListeners: {
-						onClick: ((e, record) => {
-							console.log(record)
-						})
+						onClick: (e, record) => {
+							console.log(record);
+						}
 					}
 				},
 				{

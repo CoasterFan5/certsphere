@@ -7,28 +7,24 @@
 
 	import TriangleIcon from '~icons/ph/triangle';
 	import TriangleIconDisabled from '~icons/ph/triangle-dashed';
-	import ChevronLeft from '~icons/ph/caret-left'
-	import ChevronRight from '~icons/ph/caret-right'
-	import type { number } from 'zod';
+	import ChevronLeft from '~icons/ph/caret-left';
+	import ChevronRight from '~icons/ph/caret-right';
 
-	export let recordsPerPageOptions: number[] = [
-		10,
-		20,
-		50,
-		100
-	]
+	export let recordsPerPageOptions: number[] = [10, 20, 50, 100];
 
-	$: activePerPageOption = parseInt($page.url.searchParams.get("perPage") || recordsPerPageOptions[0].toString() || "10")
-	$: activePerPageIndex = recordsPerPageOptions.indexOf(activePerPageOption) || 0
-	$: currentPage = parseInt($page.url.searchParams.get("page") || "0")
+	$: activePerPageOption = parseInt(
+		$page.url.searchParams.get('perPage') || recordsPerPageOptions[0].toString() || '10'
+	);
+	$: activePerPageIndex = recordsPerPageOptions.indexOf(activePerPageOption) || 0;
+	$: currentPage = parseInt($page.url.searchParams.get('page') || '0');
 	type GridFields = {
 		fieldName: string;
 		internalName: string;
 		fieldData: (input: T) => string | undefined;
 		allowSorting?: boolean;
 		eventListeners?: {
-			onClick?: (e: MouseEvent, record: T) => void
-		}
+			onClick?: (e: MouseEvent, record: T) => void;
+		};
 	}[];
 
 	enum SortingMode {
@@ -54,15 +50,15 @@
 
 	const setPerPage = (perPage: number) => {
 		const newUrl = new URL($page.url);
-		newUrl.searchParams.set("perPage", perPage.toString())
+		newUrl.searchParams.set('perPage', perPage.toString());
 		goto(newUrl);
-	}
+	};
 
 	const basePageFunction = (amt: number) => {
-			const newUrl = new URL($page.url)
-			newUrl.searchParams.set("page", (currentPage + amt).toString())
-			goto(newUrl)
-	}
+		const newUrl = new URL($page.url);
+		newUrl.searchParams.set('page', (currentPage + amt).toString());
+		goto(newUrl);
+	};
 
 	/**
 	 * A tuple
@@ -71,9 +67,13 @@
 	 * @param GridFields Array of fields
 	 *
 	 */
-	export let config: [T[], GridFields, {
-		totalRecords: number,
-	}];
+	export let config: [
+		T[],
+		GridFields,
+		{
+			totalRecords: number;
+		}
+	];
 
 	const gridConfigIndex = 1;
 	const dataIndex = 0;
@@ -113,15 +113,25 @@
 	{#each config[dataIndex] as dataItem, i}
 		<tr class:altBg={i % 2 == 0}>
 			{#each config[gridConfigIndex] as field}
-				<td class:clickable={field.eventListeners?.onClick} on:click={(e) => {if(field.eventListeners.onClick) {
-					field.eventListeners?.onClick(e, dataItem)
-				}}}>{field.fieldData(dataItem) ? field.fieldData(dataItem) : '-'}</td>
+				<td
+					class:clickable={field.eventListeners?.onClick}
+					on:click={(e) => {
+						if (field.eventListeners.onClick) {
+							field.eventListeners?.onClick(e, dataItem);
+						}
+					}}>{field.fieldData(dataItem) ? field.fieldData(dataItem) : '-'}</td
+				>
 			{/each}
 		</tr>
 	{/each}
 </table>
 <div class="options">
-	<div class="perPage" style="background-size: {100/recordsPerPageOptions.length}%; background-position-x: {activePerPageIndex * (100/(recordsPerPageOptions.length - 1))}%">
+	<div
+		class="perPage"
+		style="background-size: {100 /
+			recordsPerPageOptions.length}%; background-position-x: {activePerPageIndex *
+			(100 / (recordsPerPageOptions.length - 1))}%"
+	>
 		{#each recordsPerPageOptions as perPageOption, index}
 			<button class:active={activePerPageIndex == index} on:click={() => setPerPage(perPageOption)}>
 				{perPageOption}
@@ -130,13 +140,16 @@
 	</div>
 	<div class="pages">
 		<IconButton disabled={currentPage < 2} on:click={() => basePageFunction(-1)}>
-			<ChevronLeft/>
+			<ChevronLeft />
 		</IconButton>
 		<span>
-			{currentPage}/{Math.ceil(config[2].totalRecords/(activePerPageOption || 1))}
+			{currentPage}/{Math.ceil(config[2].totalRecords / (activePerPageOption || 1))}
 		</span>
-		<IconButton on:click={() => basePageFunction(1)} disabled={currentPage == Math.ceil(config[2].totalRecords/(activePerPageOption || 1))}>
-			<ChevronRight/>
+		<IconButton
+			on:click={() => basePageFunction(1)}
+			disabled={currentPage == Math.ceil(config[2].totalRecords / (activePerPageOption || 1))}
+		>
+			<ChevronRight />
 		</IconButton>
 	</div>
 </div>
@@ -205,7 +218,6 @@
 				&.active {
 					color: var(--bgAccent);
 				}
-				
 			}
 		}
 	}

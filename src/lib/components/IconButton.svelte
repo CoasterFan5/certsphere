@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: HTMLButtonElement['type'] = 'button';
 	export let disabled: boolean = false;
-	export let href = ""
+	export let href = '';
 </script>
 
 {#if href}
@@ -17,7 +17,6 @@
 		</span>
 	</button>
 {/if}
-
 
 <style lang="scss">
 	.button {

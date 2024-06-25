@@ -44,8 +44,8 @@ export const load = async ({ url }) => {
 		}
 	};
 
-	const perPage = parseInt(url.searchParams.get("perPage") || "20")
-	const page = parseInt(url.searchParams.get("page") || "1")
+	const perPage = parseInt(url.searchParams.get('perPage') || '20');
+	const page = parseInt(url.searchParams.get('page') || '1');
 
 	let customOrderBy: Prisma.userOrderByWithRelationInput | undefined = undefined;
 
@@ -66,8 +66,7 @@ export const load = async ({ url }) => {
 
 	console.log(customOrderBy);
 
-
-	const userCount = await prisma.user.count()
+	const userCount = await prisma.user.count();
 	const users = await prisma.user.findMany({
 		select: {
 			firstName: true,
